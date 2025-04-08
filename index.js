@@ -1,11 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import Dish from './models/dish.model.js'; // Adjust the path as necessary
+import Dish from './models/dish.model.js';
 
 
 const app = express();
-app.use(express.json()); // Middleware to parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded request bodies
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send('Hello World Test')
@@ -17,6 +17,19 @@ app.get('/api/dishes', async (req, res) => {
     res.status(200).json(dishes);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching dishes', error });
+  }
+});
+
+app.get('/api/dishes/:name', async (req, res) => {
+  const { name } = req.params;
+  try {
+    const dish = await Dish.findOne({ name });
+    if (!dish) {
+      return res.status(404).json({ message: 'Dish not found' });
+    }
+    res.status(200).json(dish);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching dish', error });
   }
 });
 
