@@ -44,16 +44,32 @@ document.addEventListener('DOMContentLoaded', async function() {
         toggleContents.forEach(item => {
             item.addEventListener('click', () => {
                 const contentList = item.nextElementSibling;
-                const isVisible = contentList.style.display === 'block';
-                contentList.style.display = isVisible ? 'none' : 'block'; 
+                const isVisible = contentList.style.display === 'flex';
+                contentList.style.display = isVisible ? 'none' : 'flex'; 
             });
         });
 
+        const modal = document.getElementById('updateModal');
+        const updateForm = document.getElementById('updateForm');
+
+        // Add dish
+        document.getElementById('addRecipeBtn').addEventListener('click', () => {
+            updateForm.reset();
+
+            updateForm.dataset.mode = 'add';
+            updateForm.dataset.id = '';
+
+            document.getElementById('modalTitle').textContent = 'Add New Recipe';
+            document.getElementById('submitUpdate').textContent = 'Add Recipe';
+
+            modal.style.display = 'flex';
+        });
+
+
         // Update dish
         const updateButtons = document.querySelectorAll('.update-btn');
-        const modal = document.getElementById('updateModal');
         const closeModalButton = document.getElementById('closeModal');
-        const updateForm = document.getElementById('updateForm');
+        
         updateButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const id = button.getAttribute('data-id');
@@ -66,6 +82,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                 document.getElementById('servings').value = dish.servings;
                 document.getElementById('origin').value = dish.origin;
 
+                updateForm.dataset.mode = 'update';
+                updateForm.dataset.id = id;
+
+                document.getElementById('modalTitle').textContent = 'Update Recipe';
+                document.getElementById('submitUpdate').textContent = 'Update Recipe';
+
                 modal.style.display = 'flex';
                 
                 console.log(`Update dish with ID: ${id}`);
@@ -76,9 +98,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             modal.style.display = 'none';
         });
 
-        // Send update request to the server
+        // Send add/update request to the server
         updateForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const mode = updateForm.dataset.mode;
+
             const id = updateButtons[0].getAttribute('data-id');
             const formData = new FormData(updateForm);
             const data = {
@@ -91,21 +116,41 @@ document.addEventListener('DOMContentLoaded', async function() {
             };
 
             try {
-                const updateResponse = await fetch(`/api/dishes/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+                // Update
+                if (mode === 'update') {
+                    const updateResponse = await fetch(`/api/dishes/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
 
-                if (!updateResponse.ok) {
-                    throw new Error('Failed to update dish');
-                } else {
-                    alert('Dish updated successfully!');
-                    modal.style.display = 'none';
-                    location.reload();
+                    if (!updateResponse.ok) {
+                        throw new Error('Failed to update dish');
+                    } else {
+                        alert('Dish updated successfully!');
+                    }
+
+                // Add
+                } else if( mode === 'add') {
+                    const addResponse = await fetch('/api/dishes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!addResponse.ok) {
+                        throw new Error('Failed to add dish');
+                    } else {
+                        alert('Dish added successfully!');
+                    }
                 }
+
+                modal.style.display = 'none';
+                location.reload();
             }
             catch (error) {
                 console.error('Error updating dish:', error);

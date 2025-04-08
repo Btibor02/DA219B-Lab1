@@ -189,6 +189,23 @@ h2 {
     resize: vertical;
 }
 
+.btn-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#addRecipeBtn{
+    background-color: #007bff;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+#addRecipeBtn:hover {
+    background-color: #115dad;
+}
+
 @media (max-width: 768px) {
     .container {
         width: 95%;

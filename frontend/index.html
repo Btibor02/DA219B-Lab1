@@ -23,16 +23,18 @@
                 </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
+        <div class="btn-container">
+            <button id="addRecipeBtn">Add Recipe</button>
+        </div>
     </div>
 
     <div class="modal" id="updateModal">
         <div class="modal-content">
             <span class="close-btn" id="closeModal">&times;</span>
-            <h2>Update Recipe</h2>
-            <form id="updateForm">
+            <h2 id="modalTitle"></h2>
+            <form id="updateForm" data-mode="", data-id="">
                 <div class="form-group">
                     <label for="recipeName">Recipe Name</label>
                     <input type="text" id="recipeName" name="recipeName" required>
@@ -57,7 +59,7 @@
                     <label for="origin">Origin</label>
                     <input type="text" id="origin" name="origin" required>
                 </div>
-                <button type="submit" id="submitUpdate">Update</button>
+                <button type="submit" id="submitUpdate"></button>
             </form>
         </div>
     </div>
