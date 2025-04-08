@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #698c92;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(152, 189, 212);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table caption {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.table th, .table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.table th {
+    background-color:rgb(122, 150, 168);
+    color: white;
+}
+
+.center {
+    text-align: center;
+}
+
+.toggle-content {
+    cursor: pointer;
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.toggle-content:hover {
+    color: #0056b3;
+}
+
+.content-list {
+    margin-top: 10px;
+    padding-left: 20px;
+    display: none;
+}
+
+.content-list li {
+    margin-bottom: 5px;
+}
+
+.content-list {
+    transition: max-height 0.3s ease-in-out;
+}
+
+.table td div {
+    margin: 5px 0;
+}
+
+.table td div:nth-child(2) {
+    font-style: italic;
+    color: #6c757d; 
+}
+
+button {
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.update-btn {
+    background-color: #28a745; 
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+td.center button {
+    margin-left: 5px;
+    margin-right: 5px;
+}

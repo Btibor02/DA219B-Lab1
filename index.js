@@ -1,15 +1,21 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Dish from './models/dish.model.js';
 import dishesRouter from './routes/dish.route.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname + '/frontend')));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+
+
 
 app.use('/api/dishes', dishesRouter);
 
