@@ -50,6 +50,21 @@ app.post('/api/dishes', async (req, res) => {
   }
 });
 
+app.put('/api/dishes/:id', async (req, res) => {
+  const { id } = req.params;
+  const updatedDish = req.body;
+  try {
+    const dish = await Dish.findByIdAndUpdate(id, updatedDish, { new: true });
+    if (!dish) {
+      return res.status(404).json({ message: 'Dish not found' });
+    }
+    res.status(200).json({ message: 'Dish updated successfully', dish });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating dish', error });
+  }
+});
+
+
 mongoose.connect('mongodb+srv://Cluster12032:Frontend1@cluster0.8rrzzin.mongodb.net/lab?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => {
     console.log('Connected to database!');
