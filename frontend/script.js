@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         row.innerHTML = `
                 <td>
-                    <div>${hungarianName}</div>
-                    <div style="font-style: italic">${englishName}</div>
+                    <div class="dish-name">${hungarianName}</div>
+                    <div class="dish-name-english">${englishName}</div>
                 </td>
                 <td class="center">
                     <span class="toggle-content">Ingredients</span>
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         ${dish.preparationSteps.map(step => `<li>${step}</li>`).join('')}
                     </ol>
                 </td>
-                <td class="center">${dish.cookingTime}</td>
+                <td class="center">${dish.cookingTime} min</td>
                 <td class="center">${dish.servings}</td>
                 <td class="center">${dish.origin}</td>
                 <td class="center">
@@ -57,10 +57,34 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const deleteButtons = document.querySelectorAll('.delete-btn');
         deleteButtons.forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', async () => {
                 const id = button.getAttribute('data-id');
+                const confirmation = confirm('Are you sure you want to delete this dish?');
+                if (!confirmation) return;
+                else {
+                    try {
+                        const deleteResponse = await fetch(`/api/dishes/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        if (!deleteResponse.ok) {
+                            throw new Error('Failed to delete dish');
+                        } else {
+                            alert('Dish deleted successfully!');
+                            const row = button.closest('tr');
+                            row.remove();
+                        }
+                    }
+                    catch (error) {
+                        console.error('Error deleting dish:', error);
+                    }
+                }
+
                 console.log(`Delete dish with ID: ${id}`);
-                // Implementáld itt a törlés logikát
+                
             });
         });
 });
