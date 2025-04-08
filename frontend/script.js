@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     const tableBody = document.querySelector('tbody');
     
     dishes.forEach(dish => {
+
+        // Create a new table row for each dish
+        // and populate it with the dish data
         const row = document.createElement('tr');
         const [hungarianName, englishName] = dish.name.split(' - ');
         
@@ -46,15 +49,69 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
         });
 
+        // Update dish
         const updateButtons = document.querySelectorAll('.update-btn');
+        const modal = document.getElementById('updateModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const updateForm = document.getElementById('updateForm');
         updateButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const id = button.getAttribute('data-id');
+                const dish = dishes.find(dish => dish._id === id);
+
+                document.getElementById('recipeName').value = dish.name;
+                document.getElementById('ingredients').value = dish.ingredients.join(',\n');
+                document.getElementById('preparationSteps').value = dish.preparationSteps.join(',\n');
+                document.getElementById('cookingTime').value = dish.cookingTime;
+                document.getElementById('servings').value = dish.servings;
+                document.getElementById('origin').value = dish.origin;
+
+                modal.style.display = 'flex';
+                
                 console.log(`Update dish with ID: ${id}`);
-                // Implementáld itt a frissítés logikát
             });
         });
 
+        closeModalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Send update request to the server
+        updateForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = updateButtons[0].getAttribute('data-id');
+            const formData = new FormData(updateForm);
+            const data = {
+                name: formData.get('recipeName'),
+                ingredients: formData.get('ingredients').split(',\n'),
+                preparationSteps: formData.get('preparationSteps').split(',\n'),
+                cookingTime: formData.get('cookingTime'),
+                servings: formData.get('servings'),
+                origin: formData.get('origin')
+            };
+
+            try {
+                const updateResponse = await fetch(`/api/dishes/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!updateResponse.ok) {
+                    throw new Error('Failed to update dish');
+                } else {
+                    alert('Dish updated successfully!');
+                    modal.style.display = 'none';
+                    location.reload();
+                }
+            }
+            catch (error) {
+                console.error('Error updating dish:', error);
+            }});
+
+        // Delete dish
         const deleteButtons = document.querySelectorAll('.delete-btn');
         deleteButtons.forEach(button => {
             button.addEventListener('click', async () => {
@@ -76,14 +133,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                             alert('Dish deleted successfully!');
                             const row = button.closest('tr');
                             row.remove();
+                            console.log(`Delete dish with ID: ${id}`);
                         }
                     }
                     catch (error) {
                         console.error('Error deleting dish:', error);
                     }
                 }
-
-                console.log(`Delete dish with ID: ${id}`);
                 
             });
         });
