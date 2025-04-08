@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// This is a Mongoose schema for a Dish model
 const DishSchema = mongoose.Schema({
     name: {
         type: String,

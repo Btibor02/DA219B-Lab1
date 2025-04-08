@@ -9,8 +9,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Create a new table row for each dish
         // and populate it with the dish data
         const row = document.createElement('tr');
-        const [hungarianName, englishName] = dish.name.split(' - ');
+
+        // Separate the Hungarian and English names "Hungarian - English"
+        let [hungarianName, englishName] = dish.name.split(' - ');
+
+        // If the English name is not provided, set it to an empty string
+        if (!englishName) {
+            englishName = '';
+        }
         
+        // Set row content with dish data
         row.innerHTML = `
                 <td>
                     <div class="dish-name">${hungarianName}</div>
@@ -40,15 +48,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             tableBody.appendChild(row);
         });
 
+        // Add event listeners to toggle the visibility of the ingredients and steps lists
         const toggleContents = document.querySelectorAll('.toggle-content');
         toggleContents.forEach(item => {
             item.addEventListener('click', () => {
                 const contentList = item.nextElementSibling;
-                const isVisible = contentList.style.display === 'flex';
-                contentList.style.display = isVisible ? 'none' : 'flex'; 
+                const isVisible = contentList.style.display === 'block';
+                contentList.style.display = isVisible ? 'none' : 'block'; 
             });
         });
 
+        // Modal and Form for adding/updating dishes
         const modal = document.getElementById('updateModal');
         const updateForm = document.getElementById('updateForm');
 
@@ -56,9 +66,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('addRecipeBtn').addEventListener('click', () => {
             updateForm.reset();
 
+            // Set the form to add mode
             updateForm.dataset.mode = 'add';
             updateForm.dataset.id = '';
 
+            // Set the modal title and button text to add mode
             document.getElementById('modalTitle').textContent = 'Add New Recipe';
             document.getElementById('submitUpdate').textContent = 'Add Recipe';
 
@@ -72,9 +84,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         updateButtons.forEach(button => {
             button.addEventListener('click', () => {
+                // Get the dish ID from the button's data-id attribute
+                // and find the corresponding dish in the dishes array
                 const id = button.getAttribute('data-id');
                 const dish = dishes.find(dish => dish._id === id);
 
+                // Populate the form fields with the dish data
                 document.getElementById('recipeName').value = dish.name;
                 document.getElementById('ingredients').value = dish.ingredients.join(',\n');
                 document.getElementById('preparationSteps').value = dish.preparationSteps.join(',\n');
@@ -82,9 +97,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                 document.getElementById('servings').value = dish.servings;
                 document.getElementById('origin').value = dish.origin;
 
+                // Set the form to update mode
                 updateForm.dataset.mode = 'update';
                 updateForm.dataset.id = id;
 
+                // Set the modal title and button text to update mode
                 document.getElementById('modalTitle').textContent = 'Update Recipe';
                 document.getElementById('submitUpdate').textContent = 'Update Recipe';
 
@@ -94,6 +111,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
         });
 
+        // Close modal
         closeModalButton.addEventListener('click', () => {
             modal.style.display = 'none';
         });
@@ -102,10 +120,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         updateForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Get the mode from the form's data attribute
             const mode = updateForm.dataset.mode;
 
             const id = updateButtons[0].getAttribute('data-id');
             const formData = new FormData(updateForm);
+            
+            // Create a data object from the form data
             const data = {
                 name: formData.get('recipeName'),
                 ingredients: formData.get('ingredients').split(',\n'),
@@ -161,6 +182,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         deleteButtons.forEach(button => {
             button.addEventListener('click', async () => {
                 const id = button.getAttribute('data-id');
+
+                // Confirm deletion
                 const confirmation = confirm('Are you sure you want to delete this dish?');
                 if (!confirmation) return;
                 else {

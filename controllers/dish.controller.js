@@ -1,5 +1,7 @@
 import Dish from '../models/dish.model.js';
 
+// Get all dishes
+// @route GET /api/dishes
 const getDishes = async (req, res) => {
   try {
       const dishes = await Dish.find();
@@ -9,6 +11,8 @@ const getDishes = async (req, res) => {
     }
   };
 
+// Get dish by name
+// @route GET /api/dishes/:name
 const getDishByName = async (req, res) => {
     const { name } = req.params;
         try {
@@ -22,6 +26,8 @@ const getDishByName = async (req, res) => {
         }
       };
 
+// Create a new dish
+// @route POST /api/dishes
 const postDish = async (req, res) => {
     const dish = req.body;
         try {
@@ -39,6 +45,8 @@ const postDish = async (req, res) => {
         }
       };
 
+// Update a dish
+// @route PUT /api/dishes/:id
 const putDish = async (req, res) => {
     const { id } = req.params;
         const updatedDish = req.body;
@@ -53,6 +61,8 @@ const putDish = async (req, res) => {
         }
       };
 
+// Delete a dish
+// @route DELETE /api/dishes/:id
 const deleteDish = async (req, res) => {
     const { id } = req.params;
         try {

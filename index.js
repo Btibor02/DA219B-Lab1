@@ -8,17 +8,20 @@ import { fileURLToPath } from 'url';
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
+// Initialize express app
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Middleware
 app.use(express.static(path.join(__dirname + '/frontend')));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
-
-
+// API routes
 app.use('/api/dishes', dishesRouter);
 
+// Database connection
 mongoose.connect(process.env.CONNECTION_URL)
   .then(() => {
     console.log('Connected to database!');
