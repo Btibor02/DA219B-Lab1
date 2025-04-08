@@ -64,6 +64,19 @@ app.put('/api/dishes/:id', async (req, res) => {
   }
 });
 
+app.delete('/api/dishes/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const dish = await Dish.findByIdAndDelete(id);
+    if (!dish) {
+      return res.status(404).json({ message: 'Dish not found' });
+    }
+    res.status(200).json({ message: 'Dish deleted successfully', dish });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting dish', error });
+  }
+});
+
 
 mongoose.connect('mongodb+srv://Cluster12032:Frontend1@cluster0.8rrzzin.mongodb.net/lab?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => {
