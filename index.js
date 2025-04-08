@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import Dish from './models/dish.model.js';
 
 
@@ -7,9 +8,8 @@ const app = express();
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('Hello World Test')
-});
+dotenv.config();
+const PORT = process.env.PORT || 5000;
 
 app.get('/api/dishes', async (req, res) => {
   try {
@@ -78,11 +78,10 @@ app.delete('/api/dishes/:id', async (req, res) => {
 });
 
 
-mongoose.connect('mongodb+srv://Cluster12032:Frontend1@cluster0.8rrzzin.mongodb.net/lab?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.CONNECTION_URL)
   .then(() => {
     console.log('Connected to database!');
-    // Ezt átrakni majd .env-be
-    app.listen(5000, () => {
+    app.listen(PORT, () => {
     console.log("Server is running on port 5000");
     });
 }).catch(() => console.log('Connection failed to database!'));

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Btibor02/DA219B-Lab1#readme",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
