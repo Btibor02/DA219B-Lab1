@@ -11,6 +11,14 @@ app.get('/', (req, res) => {
   res.send('Hello World Test')
 });
 
+app.get('/api/dishes', async (req, res) => {
+  try {
+    const dishes = await Dish.find();
+    res.status(200).json(dishes);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching dishes', error });
+  }
+});
 
 app.post('/api/dishes', async (req, res) => {
   const dish = req.body;
