@@ -8,7 +8,7 @@ const router = express.Router();
 // GET /dishes - Get all dishes
 router.get('/', dishController.getDishes);
 
-// GET /dishes/:id - Get a dish by ID
+// GET /dishes/:name - Get a dish by name
 router.get('/:name', dishController.getDishByName);
 
 // POST /dishes - Create a new dish
