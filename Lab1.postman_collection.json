@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "8cf191b3-0f6c-4045-8a87-4f6b931f47b0",
+		"name": "Lab1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44005996",
+		"_collection_link": "https://tibor-4574622.postman.co/workspace/Tibor's-Workspace~c42a61b4-082a-4aa6-8298-63d3680daee0/collection/44005996-8cf191b3-0f6c-4045-8a87-4f6b931f47b0?action=share&source=collection_link&creator=44005996"
+	},
+	"item": [
+		{
+			"name": "Get all dishes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/dishes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"dishes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get dish by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/dishes/Fasirt - Hungarian Meatballs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"dishes",
+						"Fasirt - Hungarian Meatballs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new dish",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Test\",\r\n  \"ingredients\": [\"Teszt\", \"Teszt\"],\r\n  \"preparationSteps\": [\"Teszt\", \"Teszt\"],\r\n  \"cookingTime\": 20,\r\n  \"origin\": \"Teszt\",\r\n  \"servings\": 6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/dishes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"dishes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update dish by ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Test-15\",\r\n  \"ingredients\": [\"Teszt\", \"Teszt\"],\r\n  \"preparationSteps\": [\"Teszt\", \"Teszt\"],\r\n  \"cookingTime\": 2000,\r\n  \"origin\": \"Teszt\",\r\n  \"servings\": 6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/dishes/67fa53edf520bafcf5285cfd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"dishes",
+						"67fa53edf520bafcf5285cfd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete dish by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/dishes/67fa53edf520bafcf5285cfd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"dishes",
+						"67fa53edf520bafcf5285cfd"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
