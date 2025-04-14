@@ -11,6 +11,7 @@ const getDishes = async (req, res) => {
     }
   };
 
+
 // Get dish by name
 // @route GET /api/dishes/:name
 const getDishByName = async (req, res) => {
@@ -25,6 +26,19 @@ const getDishByName = async (req, res) => {
           res.status(500).json({ message: 'Error fetching dish', error });
         }
       };
+
+const getDishByOrigin = async (req, res) => {
+  const { origin } = req.params;
+      try {
+        const dish = await Dish.findOne({ origin });
+        if (!dish) {
+          return res.status(404).json({ message: 'Dish not found' });
+        }
+        res.status(200).json(dish);
+      } catch (error) {
+        res.status(500).json({ message: 'Error fetching dish', error });
+      }
+    };
 
 // Create a new dish
 // @route POST /api/dishes
@@ -77,5 +91,5 @@ const deleteDish = async (req, res) => {
       };
 
 export default {
-    getDishes, getDishByName, postDish, putDish, deleteDish
+    getDishes, getDishByName, postDish, putDish, deleteDish, getDishByOrigin
 };

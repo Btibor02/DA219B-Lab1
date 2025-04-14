@@ -11,6 +11,8 @@ router.get('/', dishController.getDishes);
 // GET /dishes/:name - Get a dish by name
 router.get('/:name', dishController.getDishByName);
 
+router.get('/:origin', dishController.getDishByOrigin);
+
 // POST /dishes - Create a new dish
 router.post('/', dishController.postDish);
 
