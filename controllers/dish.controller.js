@@ -13,7 +13,7 @@ const getDishes = async (req, res) => {
 
 
 // Get dish by name
-// @route GET /api/dishes/:name
+// @route GET /api/dishes/name/:name
 const getDishByName = async (req, res) => {
     const { name } = req.params;
         try {
@@ -27,6 +27,8 @@ const getDishByName = async (req, res) => {
         }
       };
 
+// Get dish by origin
+// @route GET /api/dishes/origin/:origin
 const getDishByOrigin = async (req, res) => {
   const { origin } = req.params;
       try {
